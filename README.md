@@ -1,2 +1,0 @@
-# Starwars-blog
-Starwars-blog
