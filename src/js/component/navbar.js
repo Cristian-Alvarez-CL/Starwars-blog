@@ -1,79 +1,48 @@
-import React from "react";
-import { Context } from "../store/appContext.js";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
+import React, { useEffect, useContext } from "react";
+import { Context } from "../store/appContext";
 import starwars from "../../img/starwars.png";
 
-export class Navbar extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      showDropdown: false,
-    };
-  }
+export const Navbar = () => {
+	const { store, actions } = useContext(Context);
 
-  render() {
-    let show = "";
-    if (this.state.clickedDropDown) show = "show";
-    return (
-      <nav className="navbar navbar-light header d-flex justify-content-between bg-light">
-        <Context.Consumer>
-          {({ actions, store }) => (
-            <div className="container">
-              <Link className="navbar-brand text-white" to="/">
-                <img src={starwars} alt="description" />
-              </Link>
-              <a
-                className={
-                  "nav-item dropdown " + (this.state.showDropdown ? "show" : "")
-                }
-                href="..."
-              >
-                <a
-                  className="btn btn-primary nav-link dropdown-toggle"
-                  href="..."
-                  id="navbarDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded={this.state.clickedDropDown}
-                  onClick={() =>
-                    this.setState({
-                      clickedDropDown: !this.state.clickedDropDown,
-                    })
-                  }
-                >
-                  Favorites{" "}
-                  <span className="badge badge-secondary">
-                    {store.favorites.length}
-                  </span>
-                </a>
-                <div
-                  className={"dropdown-menu " + show}
-                  aria-labelledby="navbarDropdown"
-                >
-                  {store.favorites.length > 0 ? (
-                    store.favorites.map((elm, index) => (
-                      <li key={index} className="dropdown-item">
-                        <Link to={`/details/${index + 1}`}>{elm.name}</Link>
-                        <i
-                          className="fas fa-trash"
-                          onClick={() => actions.deleteFromFavorites(elm)}
-                        />
-                      </li>
-                    ))
-                  ) : (
-                    <li className="dropdown-item text-center">(empty)</li>
-                  )}
-                </div>
-              </a>
-            </div>
-          )}
-        </Context.Consumer>
-      </nav>
-    );
-  }
-}
-Navbar.propTypes = {
-  index: PropTypes.number,
+	useEffect(() => {
+		actions.deleteFavorites();
+	}, []);
+
+	return (
+		<nav className="navbar navbar-light header d-flex justify-content-between bg-light">
+			<div className="container">
+				<a className="navbar-brand" href="/">
+					<img
+						src={starwars} 
+						alt=""
+					/>
+				</a>
+				<div className="btn-group">
+					<button
+						type="button"
+						className="btn btn-primary dropdown-toggle"
+						data-toggle="dropdown"
+						aria-haspopup="true"
+						aria-expanded="false">
+						Favoritos {store.favorites.length}
+					</button>
+					<div className="dropdown-menu dropdown-menu-right">
+						<button className="dropdown-item" type="button">
+							{store.favorites.map((elemento, index) => {
+								return (
+									<div key={index} className="d-flex">
+										<p>{elemento}</p>
+										<button className="btn" onClick={() => actions.deleteFavorites(index)}>
+											<i className="fa fa-trash" />
+										</button>
+									</div>
+								);
+							})}
+						</button>
+					</div>
+				</div>
+			</div>
+		</nav>
+	);
 };

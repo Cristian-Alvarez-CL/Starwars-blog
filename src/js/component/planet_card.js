@@ -18,32 +18,34 @@ export const PlanetCard = props => {
 					<br />
 					Terrain: {props.terrain}
 				</p>
-				<Link to={`/planet_details/${props.index + 1}`}>
-					<a href="..." className="btn btn-outline-primary">
-						Learn more!
-					</a>
-				</Link>
-				<Context.Consumer>
-					{({ actions, store }) => {
-						const isFav = store.favorites.find(
-							f => f.name === props.name
-						);
-						return (
-							<button
-								type="button"
-								className="btn btn-outline-warning"
-								onClick={() =>
-									actions.addToFavorites(props.name)
-								}>
-								{isFav ? (
-									<i className="fas fa-heart" />
-								) : (
-									<i className="far fa-heart" />
-								)}
-							</button>
-						);
-					}}
-				</Context.Consumer>
+				<div className="d-flex justify-content-between">
+					<Link to={`/planet_details/${props.index}`}>
+						<a href="..." className="btn btn-outline-primary">
+							Learn more!
+						</a>
+					</Link>
+					<Context.Consumer>
+						{({ actions, store }) => {
+							const isFav = store.favorites.find(
+								f => f.name === props.name
+							);
+							return (
+								<button
+									type="button"
+									className="btn btn-outline-warning"
+									onClick={() =>
+										actions.addFavorites(props.name)
+									}>
+									{isFav ? (
+										<i className="fas fa-heart" />
+									) : (
+										<i className="far fa-heart" />
+									)}
+								</button>
+							);
+						}}
+					</Context.Consumer>
+				</div>
 			</div>
 		</div>
 	);
@@ -55,3 +57,5 @@ PlanetCard.propTypes = {
 	terrain: PropTypes.string,
 	index: PropTypes.number
 };
+
+export default PlanetCard;

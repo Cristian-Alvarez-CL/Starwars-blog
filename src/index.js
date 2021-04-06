@@ -9,11 +9,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/index.css";
 
 //import your own components
-import Layout from "./js/layout.js";
+import Layout from "./js/layout";
 
 import 'jquery';
 import 'popper.js';
 import 'bootstrap';
 
 //render your react application
-ReactDOM.render(<Layout />, document.querySelector("#app"));
+ReactDOM.render(
+  <React.StrictMode>
+    <Layout/>
+  </React.StrictMode>,
+  document.getElementById('root')
+);

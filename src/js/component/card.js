@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Context } from "../store/appContext.js";
 
-export const CharacterCard = props => {
-	return (
+function Card(props) {
+    return (
 		<div className="card m-3" style={{ width: "18rem" }}>
 			<img
 				src="http://via.placeholder.com/400x200"
@@ -36,7 +36,7 @@ export const CharacterCard = props => {
 									type="button"
 									className="btn btn-outline-warning"
 									onClick={() =>
-										actions.addToFavorites(props.name)
+										actions.addFavorites(props.name)
 									}>
 									{isFav ? (
 										<i className="fas fa-heart" />
@@ -51,9 +51,9 @@ export const CharacterCard = props => {
 			</div>
 		</div>
 	);
-};
+}
 
-CharacterCard.propTypes = {
+Card.propTypes = {
 	name: PropTypes.string,
 	species: PropTypes.array,
 	gender: PropTypes.string,
@@ -61,3 +61,5 @@ CharacterCard.propTypes = {
 	hair_color: PropTypes.string,
 	index: PropTypes.number
 };
+
+export default Card;
